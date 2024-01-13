@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Welcome! {{ user.username }}</h1>
+    
+    <div class="tweets">
+        {% if tweets %}
+            <h2>Recent Tweets</h2>
+            <div class="row">
+                {% for tweet in tweets %}
+                    <!-- Each tweet is placed inside a column of 4 units, thus fitting 3 in a row (since 12 units total) -->
+                    <div class="col-md-4 mb-4">
+                        <div class="card" style="width: 100%;">
+                            {% if tweet.image %}
+                                <img src="{{ tweet.image.url }}" class="card-img-top" alt="Tweet image">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ tweet.title }}</h5>
+                                <p class="card-text">{{ tweet.tweet }}</p>
+                                <p class="card-text">{{ tweet.user.username }}</p>
+                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Check if we need to start a new row -->
+                    {% if forloop.counter|divisibleby:3 and not forloop.last %}
+                        </div><div class="row">
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No tweets to display.</p>
+        {% endif %}
+    </div>
+{% endblock %}
